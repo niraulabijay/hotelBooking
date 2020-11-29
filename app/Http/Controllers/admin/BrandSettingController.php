@@ -25,11 +25,16 @@ class BrandSettingController extends Controller
     }
 
     public function update(Request $request){
-        // dd($request);
-        $this->brandSettingRepo->updateService($request->brand_id,$request);
-        $this->brandSettingRepo->updateExperience($request->brand_id,$request);
-        $this->brandSettingRepo->updateBanner($request->brand_id, $request);
-        Toastr::success('Brand Details Updated.','Operation Success');
-        return redirect()->back();
+//         dd($request);
+         try {
+            $this->brandSettingRepo->updateService($request->brand_id, $request);
+            $this->brandSettingRepo->updateExperience($request->brand_id, $request);
+            $this->brandSettingRepo->updateBanner($request->brand_id, $request);
+            Toastr::success('Brand Details Updated.', 'Operation Success');
+            return redirect()->back();
+         }catch (\Exception $e){
+             Toastr::error($e->getMessage(),'Server Error');
+             return redirect()->back();
+         }
     }
 }

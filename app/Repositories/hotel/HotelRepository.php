@@ -5,7 +5,7 @@ namespace App\Repositories\hotel;
 use App\Model\Hotel;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 
-class HotelRepository{
+class HotelRepository implements HotelInterface {
 
     public function findById($id){
         return Hotel::find($id);
@@ -18,5 +18,10 @@ class HotelRepository{
             $hotel_id = Sentinel::getUser()->hotel_id;
         }
         return $this->findById($hotel_id);
+    }
+
+    public function activeRoomTypes($hotel)
+    {
+        return $hotel->roomTypes->where('status','Active');
     }
 }

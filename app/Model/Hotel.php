@@ -27,7 +27,7 @@ class Hotel extends Model implements HasMedia
 
 
     public function destination(){
-        return $this->belongsTo(Destination::class);
+        return $this->belongsTo(Destination::class, 'destination_id');
     }
 
     public function brand(){
@@ -75,5 +75,13 @@ class Hotel extends Model implements HasMedia
               ->width(350)
               ->height(200)
               ->sharpen(10);
+    }
+
+    public function settingMeta($key){
+        $hotelMeta = $this->hotelSettings->where('key',$key)->first();
+        if($hotelMeta){
+            return $hotelMeta->value;
+        }
+        return '';
     }
 }

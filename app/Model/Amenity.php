@@ -14,7 +14,8 @@ class Amenity extends Model
     {
         return [
             'slug' => [
-                'source' => 'title'
+                'source' => 'title',
+                'onUpdate' => true,
             ]
         ];
     }
@@ -27,8 +28,12 @@ class Amenity extends Model
 
     }
 
-    public function icon()
+    public function iconable()
     {
-        return $this->morphOne('App\Amenity', 'iconable');
+        return $this->morphToMany(Icon::class, 'iconable');
+    }
+
+    public function icon(){
+        return $this->iconable()->first()->icon ?? '';
     }
 }

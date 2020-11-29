@@ -5,7 +5,7 @@ namespace App\Repositories\roomType;
 use App\Model\Booking;
 use App\Model\RoomType;
 
-class RoomTypeRepository{
+class RoomTypeRepository implements RoomTypeInterface {
 
     public function getByIds($ids = []){
         $roomTypes = RoomType::whereIn('id',$ids)->get($this->formatMultiple());

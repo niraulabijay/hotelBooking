@@ -118,9 +118,10 @@
 @push('scripts')
 
     <!-- Date Range Picker CDNs -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    {{--<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>--}}
+    {{--<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>--}}
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
     <script>
         $('input[name="checkIn"]').val(moment().format('YYYY-MM-DD'));
         $('input[name="checkOut"]').val(moment().add(1, 'days').format('YYYY-MM-DD'));

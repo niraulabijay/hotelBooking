@@ -49,8 +49,8 @@ class BrandController extends Controller
 
     private function formatMeta($experience){
         return [
-            'message' => $experience->value,
-            'image' => $experience->image ? asset($experience->image->getUrl()) : null,
+            'message' => $experience->value ?? '',
+            'image' => isset($experience->image) && $experience->image != null ? asset($experience->image->getUrl()) : null,
         ];
     }
 }

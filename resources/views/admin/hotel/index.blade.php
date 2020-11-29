@@ -42,7 +42,7 @@
                                     <div class="infobox-image">
                                         <img src="@if($hotel->hasMedia('hotel_feature')){{ asset($hotel->featureImage()->getUrl('feature-thumb')) }} @endif" alt="">
                                     </div>
-                                    <p class="info-text"><i data-feather="map-pin"></i>&nbsp;{{ $hotel->location }}</p>
+                                    <p class="info-text"><i data-feather="map-pin"></i>&nbsp;{{ $hotel->destination->destination ?? '' }}</p>
                                     {{-- <a class="info-link" href="">Discover <svg> ... </svg></a> --}}
 
                                 </div>
@@ -51,7 +51,7 @@
                                     <img src="@if($hotel->brand->hasMedia('brand_logo')){{ asset($hotel->brand->logo()->getUrl('logo-thumb')) }} @endif" alt="">
                                     </div>
                                     <div class="btn-group float-left" role="group" aria-label="Basic example">
-                                        <button type="button" class="btn btn-primary">Settings</button>
+                                        <a href="{{ route('admin.hotel.setting',$hotel->id) }}" type="button" class="btn btn-primary">Settings</a>
                                         <a href="{{ route('admin.hotels.edit',$hotel->id)}}" class="btn btn-secondary">Edit</a>
                                         <button type="button" class="btn btn-danger" data-target="#deleteContent{{$hotel->id}}" data-toggle="modal">
                                             Delete
@@ -87,7 +87,7 @@
                     @endif
                 </h4>
                 @if(isset($editHotel))
-                    <form class="form-vertical" method="post" action="{{ route('admin.hotels.edit') }}" enctype="multipart/form-data">
+                    <form class="form-vertical" method="post" action="{{ route('admin.hotels.edit',[$editHotel->id]) }}" enctype="multipart/form-data">
                         <input type="hidden" name="id" value="{{$editHotel->id}}">
                 @else
                     <form class="form-vertical" method="post" action="{{ route('admin.hotels.add') }}" enctype="multipart/form-data">
@@ -130,8 +130,20 @@
                         @enderror
                     </div>
                     <div class="form-group mb-4">
-                        <label class="control-label">Hotel Location: (For HomePage Search)</label>
-                        <textarea class="form-control" rows="2" name="location" aria-label="With textarea" placeholder="Location of hotel. Used in search-bar.">{{ isset($editHotel)? $editHotel->location : '' }}</textarea>
+                        <label class="control-label">Hotel Location: (For Booking Bar Search)</label>
+                        <select name="destination" class="form-control">
+                            <option value="">Select Destination</option>
+                            @foreach($destinations as $destination)
+                                <option value="{{$destination->id}}" @if(isset($editHotel)) {{$editHotel->destination_id == $destination->id ? "selected" : ""}} @endif>
+                                    {{$destination->destination}}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('destination')
+                            <div class="text-danger" role="alert">
+                                {{ $message }}
+                            </div>
+                        @enderror
                     </div>
 
                     <div class="form-group mb-4 ">

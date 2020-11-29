@@ -84,6 +84,8 @@
     </script>
     <script src="{{ asset('cork/assets/js/custom.js')}}"></script>
 
+    <!-- Moment JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <!-- Feather icons -->
     <script src="{{asset('cork/plugins/font-icons/feather/feather.min.js')}}"></script>
     <script type="text/javascript">

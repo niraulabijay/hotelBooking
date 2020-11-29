@@ -5,16 +5,26 @@ namespace App\Http\Controllers\admin;
 use App\Model\Brand;
 use App\Model\Hotel;
 use App\Http\Controllers\Controller;
+use App\Repositories\destination\DestinationInterface;
+use App\Repositories\hotel\HotelInterface;
 use App\tableList;
 use Illuminate\Http\Request;
 use Brian2694\Toastr\Facades\Toastr;
 
 class HotelController extends Controller
 {
+    protected $destination, $hotel;
+    public function __construct(HotelInterface $hotel, DestinationInterface $destination)
+    {
+        $this->destination= $destination;
+        $this->hotel= $hotel;
+    }
+
     public function index(){
         $hotels = Hotel::all();
         $brands = Brand::all();
-        return view('admin.hotel.index',compact('hotels','brands'));
+        $destinations = $this->destination->getAll();
+        return view('admin.hotel.index',compact('hotels','brands','destinations'));
     }
 
     public function add(Request $request){
@@ -23,13 +33,13 @@ class HotelController extends Controller
             'title' => 'required|unique:hotels,title',
             'brand' => 'required',
             'feature' => 'required|mimes:jpeg,bmp,png',
-            'location' => 'required',
+            'destination' => 'required',
         ]);
         try{
             $hotel = new Hotel();
             $hotel->title = $request->title;
             $hotel->brand_id = $request->brand;
-            $hotel->location = $request->location;
+            $hotel->destination_id = $request->destination;
             if($request->status){
                 $hotel->status = "Active";
             }else{
@@ -51,8 +61,9 @@ class HotelController extends Controller
     public function edit($id){
         $hotels = Hotel::all();
         $brands = Brand::all();
+        $destinations = $this->destination->getAll();
         $editHotel = Hotel::findOrFail($id);
-        return view('admin.hotel.index',compact('hotels','editHotel','brands'));
+        return view('admin.hotel.index',compact('hotels','editHotel','brands','destinations'));
     }
 
     public function update(Request $request, $id){
@@ -60,13 +71,13 @@ class HotelController extends Controller
             'title' => 'required|unique:hotels,title,'.$request->id.',id',
             'brand' => 'required',
             'feature' => 'mimes:jpeg,bmp,png',
-            'location' => 'required'
+            'destination' => 'required'
         ]);
         try{
             $hotel = Hotel::find($request->id);
             $hotel->title = $request->title;
             $hotel->brand_id = $request->brand;
-            $hotel->location = $request->location;
+            $hotel->destination_id = $request->destination;
             if($request->status){
                 $hotel->status = "Active";
             }else{

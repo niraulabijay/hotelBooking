@@ -16,13 +16,13 @@ class BrandSettingRepository implements BrandSettingInterface{
     }
 
     public function updateService($brand_id, $request){
-        $oldData = array_keys($request->service_old) ?? [];
+        $oldData = isset($request->service_old) ? (array_keys($request->service_old) ?? []) : [];
         if(count($oldData) > 0)
             $this->updateOldService($request, $oldData);
         $brandServices = $this->brandServices($brand_id)->whereNotIn('id',$oldData)->whereNotIn('parent',$oldData);
         foreach($brandServices as $service)
             $service->delete();
-        $keys = array_keys($request->service_title) ?? [];
+        $keys = isset($request->service_title) ? array_keys($request->service_title) ?? [] : [];
         $keys = array_diff($keys, $oldData);
         foreach($keys as $key){
             $service = $this->create([

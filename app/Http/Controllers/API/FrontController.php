@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 
 class FrontController extends Controller
 {
+    protected $destination, $faq;
     public function __construct(DestinationInterface $destinationRepository, FaqInterface $faqRepository)
     {
         $this->destination = $destinationRepository;

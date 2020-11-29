@@ -58,6 +58,13 @@ Route::group([
         return view('admin.index');
     })->name('dashboard');
 
+    //desetinations
+    Route::get('/destinations','DestinationController@index')->name('destinations');
+    Route::post('/destination/add','DestinationController@store')->name('destination.store');
+    Route::get('/destination/edit/{id}','DestinationController@edit')->name('destination.edit');
+    Route::post('/destination/edit/{id}','DestinationController@update')->name('destination.update');
+    Route::post('/destination/delete','DestinationController@delete')->name('destination.delete');
+
     //Brands
     Route::get('/brands','BrandController@index')->name('brands');
     Route::post('/brand/add','BrandController@add')->name('brands.add');
@@ -76,6 +83,10 @@ Route::group([
     Route::post('/hotel/edit/{id}','HotelController@update')->name('hotels.update');
     Route::post('/hotel/delete','HotelController@delete')->name('hotels.delete');
 
+    //Hotel Setting Routes
+    Route::get('/hotel/setting/{id}','HotelSettingController@index')->name('hotel.setting');
+    Route::post('/hotel/setting/{id}','HotelSettingController@update')->name('hotel.setting.update');
+
     //Room Types
     Route::get('/room-types','RoomTypeController@index')->name('roomType');
     Route::get('/room-type/add/{hotel_slug}','RoomTypeController@add')->name('roomType.add');
@@ -83,6 +94,7 @@ Route::group([
     Route::get('/room-type/edit/{roomTypeSlug}','RoomTypeController@edit')->name('roomType.edit');
     Route::post('/room-type/edit/{roomTypeSlug}','RoomTypeController@update')->name('roomType.update');
     Route::post('/room-type/delete','RoomTypeController@delete')->name('roomType.delete');
+
     // Room Routes
     Route::post('/room/add/','RoomController@store')->name('room.add');
     Route::get('room/edit/','RoomController@edit')->name('room.edit');
@@ -101,8 +113,12 @@ Route::group([
     Route::post('/faq-question/update','FaqController@updateQuestion')->name('faq.update');
     Route::post('/faq-question/delete','FaqController@deleteQuestion')->name('faq.delete');
 
-    //Amenities Crud
+    //Amenities Crud.
     Route::get('/amenities','AmenityController@index')->name('amenities');
+    Route::post('/amenities','AmenityController@store')->name('amenity.store');
+    Route::get('/amenity/{slug}','AmenityController@edit')->name('amenity.edit');
+    Route::post('/amenity/{slug}','AmenityController@update')->name('amenity.update');
+    Route::get('/amenity/delete/{id}','AmenityController@delete')->name('amenity.delete');
 
     //Inclusions Crud
     Route::get('/inclusions','InclusionController@index')->name('inclusions');
@@ -112,4 +128,10 @@ Route::group([
     Route::post('/booking/checkAvailable','BookingController@checkAvailable')->name('booking.checkAvailable');
     Route::post('/booking/proceed','BookingController@proceedBooking')->name('booking.proceedBooking');
     Route::post('/booking/new','BookingController@finalize')->name('booking.finalize');
+
+    //Room Type Prices
+    Route::get('/room-prices','RoomPriceController@index')->name('roomPrices');
+    Route::get('/ajax/loadCalendar','RoomPriceController@loadCalendar')->name('ajaxPriceCalendar');
+
+
 });
